@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">LightItUp</string>
+    <string name="title_activity_main">LightItUp</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_add">Add</string>
+    <string name="action_back">Go back</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+
+
+    <color name="red">#FF0000</color>
+
+    <string name="ARG_PAGE"></string>
+</resources>

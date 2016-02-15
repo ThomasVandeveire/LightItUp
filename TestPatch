@@ -1,0 +1,2200 @@
+Index: app/src/main/java/com/liu/thomas/lightitup/Rooms.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/liu/thomas/lightitup/Rooms.java	(revision )
++++ app/src/main/java/com/liu/thomas/lightitup/Rooms.java	(revision )
+@@ -0,0 +1,210 @@
++package com.liu.thomas.lightitup;
++
++
++import android.app.Activity;
++import android.bluetooth.BluetoothAdapter;
++import android.bluetooth.BluetoothDevice;
++
++import android.content.Context;
++import android.content.Intent;
++import android.support.design.widget.TabLayout;
++import android.support.design.widget.FloatingActionButton;
++import android.support.v7.app.AppCompatActivity;
++import android.support.v7.widget.Toolbar;
++
++
++import android.support.v4.app.Fragment;
++import android.support.v4.app.FragmentManager;
++import android.support.v4.app.FragmentPagerAdapter;
++import android.support.v4.view.ViewPager;
++import android.os.Bundle;
++import android.view.LayoutInflater;
++import android.view.Menu;
++import android.view.MenuItem;
++import android.view.View;
++import android.view.ViewGroup;
++
++import android.widget.EditText;
++import android.widget.TextView;
++
++import java.util.List;
++import java.util.Vector;
++
++public class Rooms extends AppCompatActivity {
++
++    @Override
++    public void setTitle(CharSequence title) {
++        super.setTitle("Light IT up");
++    }
++
++    public void sendMessage(View view) {
++        Intent intent = new Intent(this, Add.class);
++        startActivity(intent);}
++
++
++    /**
++     * The {@link android.support.v4.view.PagerAdapter} that will provide
++     * fragments for each of the sections. We use a
++     * {@link FragmentPagerAdapter} derivative, which will keep every
++     * loaded fragment in memory. If this becomes too memory intensive, it
++     * may be best to switch to a
++     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
++     */
++    private SectionsPagerAdapter mSectionsPagerAdapter;
++
++    /**
++     * The {@link ViewPager} that will host the section contents.
++     */
++    private ViewPager mViewPager;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_rooms);
++
++
++        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
++        setSupportActionBar(toolbar);
++        // Create the adapter that will return a fragment for each of the three
++        // primary sections of the activity.
++        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
++
++        // Set up the ViewPager with the sections adapter.
++        mViewPager = (ViewPager) findViewById(R.id.container);
++        mViewPager.setAdapter(mSectionsPagerAdapter);
++
++        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
++        tabLayout.setupWithViewPager(mViewPager);
++
++        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
++    }
++
++
++
++
++    @Override
++    public boolean onCreateOptionsMenu(Menu menu) {
++        // Inflate the menu; this adds items to the action bar if it is present.
++        getMenuInflater().inflate(R.menu.menu_rooms, menu);
++
++        return true;
++    }
++
++    @Override
++    public boolean onOptionsItemSelected(MenuItem item) {
++        switch (item.getItemId()) {
++            case R.id.action_settings:
++                Intent intent = new Intent(this, Settings.class);
++                startActivity(intent);
++                return true;
++            default:
++                return super.onOptionsItemSelected(item);
++        }
++        // Handle action bar item clicks here. The action bar will
++        // automatically handle clicks on the Home/Up button, so long
++        // as you specify a parent activity in AndroidManifest.xml.
++    }
++
++    /**
++     * A placeholder fragment containing a simple view.
++     */
++    public static class Tab1 extends Fragment {
++
++        /**
++         * The fragment argument representing the section number for this
++         * fragment.
++         */
++        private static final String ARG_PAGE_NUMBER = "page_number";
++
++        public Tab1() {
++        }
++
++        /**
++         * Returns a new instance of this fragment for the given section
++         * number.
++         */
++        /* Tab 1 */
++        public static Tab1 newInstance(int sectionNumber) {
++            Tab1 fragment = new Tab1();
++            Bundle args = new Bundle();
++            args.putInt(ARG_PAGE_NUMBER, sectionNumber);
++            fragment.setArguments(args);
++            return fragment;
++        }
++
++        @Override
++        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
++            View rootView = inflater.inflate(R.layout.fragment_rooms, container, false);
++
++            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
++            int page = getArguments().getInt(ARG_PAGE_NUMBER, - 1);
++
++            switch (page){
++                case 1:
++                    View rootView1 = inflater.inflate(R.layout.tab1_layout, container, false);
++                    return rootView1;
++                case 2:
++                    View rootView2 = inflater.inflate(R.layout.tab2_layout, container, false);
++                    return rootView2;
++                case 3:
++                    View rootView3 = inflater.inflate(R.layout.tab3_layout, container, false);
++                    return rootView3;
++                case 4:
++                    View rootView4 = inflater.inflate(R.layout.tab4_layout, container, false);
++                    return rootView4;
++                default: return rootView;
++            }
++
++        }
++    }
++
++
++
++
++        public String Kamer;
++    /**
++     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
++     * one of the sections/tabs/pages.
++     */
++    public class SectionsPagerAdapter extends FragmentPagerAdapter {
++
++        public SectionsPagerAdapter(FragmentManager fm) {
++            super(fm);
++        }
++
++        @Override
++        public Fragment getItem(int position) {
++            // getItem is called to instantiate the fragment for the given page.
++            // Return a PlaceholderFragment (defined as a static inner class below).
++
++            return Tab1.newInstance(position + 1);
++        }
++
++
++        @Override
++        public int getCount() {
++            // Show 4 total pages.
++            return 4;
++        }
++
++        @Override
++        public CharSequence getPageTitle(int position) {
++            switch (position) {
++                case 0:
++                    Kamer="Living";
++                    return Kamer;
++
++                case 1:
++                    Kamer="Keuken";
++                    return Kamer;
++                case 2:
++                    Kamer="Gang";
++                    return Kamer;
++                case 3:
++                    Kamer="Toilet";
++                    return Kamer;
++            }
++            return null;
++        }
++    }
++}
+Index: app/src/main/res/layout/add.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/add.xml	(revision )
++++ app/src/main/res/layout/add.xml	(revision )
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:orientation="vertical" android:layout_width="match_parent"
++    android:layout_height="match_parent">
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_rooms.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_rooms.xml	(revision )
++++ app/src/main/res/layout/fragment_rooms.xml	(revision )
+@@ -0,0 +1,34 @@
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:paddingBottom="@dimen/activity_vertical_margin"
++    android:paddingLeft="@dimen/activity_horizontal_margin"
++    android:paddingRight="@dimen/activity_horizontal_margin"
++    android:paddingTop="@dimen/activity_vertical_margin"
++    tools:context="com.liu.thomas.lightitup.Rooms$PlaceholderFragment">
++
++    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
++        android:id="@+id/content"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent" >
++
++        <TextView style="?android:textAppearanceMedium"
++            android:padding="16dp"
++            android:lineSpacingMultiplier="1.2"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="Test" />
++    </ScrollView>
++    <TextView
++        android:id="@+id/section_label"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content" />
++
++    <android.support.v4.view.ViewPager
++        xmlns:android="http://schemas.android.com/apk/res/android"
++        android:id="@+id/pager"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent" />
++
++</RelativeLayout>
+Index: .idea/copyright/profiles_settings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/copyright/profiles_settings.xml	(revision )
++++ .idea/copyright/profiles_settings.xml	(revision )
+@@ -0,0 +1,3 @@
++<component name="CopyrightManager">
++  <settings default="" />
++</component>
+\ No newline at end of file
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision )
++++ app/src/main/res/values/strings.xml	(revision )
+@@ -0,0 +1,14 @@
++<resources>
++    <string name="app_name">LightItUp</string>
++    <string name="title_activity_main">LightItUp</string>
++    <string name="action_settings">Settings</string>
++    <string name="action_add">Add</string>
++    <string name="action_back">Go back</string>
++    <string name="section_format">Hello World from section: %1$d</string>
++
++
++
++    <color name="red">#FF0000</color>
++
++    <string name="ARG_PAGE"></string>
++</resources>
+Index: gradlew
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gradlew	(revision )
++++ gradlew	(revision )
+@@ -0,0 +1,160 @@
++#!/usr/bin/env bash
++
++##############################################################################
++##
++##  Gradle start up script for UN*X
++##
++##############################################################################
++
++# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
++DEFAULT_JVM_OPTS=""
++
++APP_NAME="Gradle"
++APP_BASE_NAME=`basename "$0"`
++
++# Use the maximum available, or set MAX_FD != -1 to use that value.
++MAX_FD="maximum"
++
++warn ( ) {
++    echo "$*"
++}
++
++die ( ) {
++    echo
++    echo "$*"
++    echo
++    exit 1
++}
++
++# OS specific support (must be 'true' or 'false').
++cygwin=false
++msys=false
++darwin=false
++case "`uname`" in
++  CYGWIN* )
++    cygwin=true
++    ;;
++  Darwin* )
++    darwin=true
++    ;;
++  MINGW* )
++    msys=true
++    ;;
++esac
++
++# Attempt to set APP_HOME
++# Resolve links: $0 may be a link
++PRG="$0"
++# Need this for relative symlinks.
++while [ -h "$PRG" ] ; do
++    ls=`ls -ld "$PRG"`
++    link=`expr "$ls" : '.*-> \(.*\)$'`
++    if expr "$link" : '/.*' > /dev/null; then
++        PRG="$link"
++    else
++        PRG=`dirname "$PRG"`"/$link"
++    fi
++done
++SAVED="`pwd`"
++cd "`dirname \"$PRG\"`/" >/dev/null
++APP_HOME="`pwd -P`"
++cd "$SAVED" >/dev/null
++
++CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
++
++# Determine the Java command to use to start the JVM.
++if [ -n "$JAVA_HOME" ] ; then
++    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
++        # IBM's JDK on AIX uses strange locations for the executables
++        JAVACMD="$JAVA_HOME/jre/sh/java"
++    else
++        JAVACMD="$JAVA_HOME/bin/java"
++    fi
++    if [ ! -x "$JAVACMD" ] ; then
++        die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
++
++Please set the JAVA_HOME variable in your environment to match the
++location of your Java installation."
++    fi
++else
++    JAVACMD="java"
++    which java >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
++
++Please set the JAVA_HOME variable in your environment to match the
++location of your Java installation."
++fi
++
++# Increase the maximum file descriptors if we can.
++if [ "$cygwin" = "false" -a "$darwin" = "false" ] ; then
++    MAX_FD_LIMIT=`ulimit -H -n`
++    if [ $? -eq 0 ] ; then
++        if [ "$MAX_FD" = "maximum" -o "$MAX_FD" = "max" ] ; then
++            MAX_FD="$MAX_FD_LIMIT"
++        fi
++        ulimit -n $MAX_FD
++        if [ $? -ne 0 ] ; then
++            warn "Could not set maximum file descriptor limit: $MAX_FD"
++        fi
++    else
++        warn "Could not query maximum file descriptor limit: $MAX_FD_LIMIT"
++    fi
++fi
++
++# For Darwin, add options to specify how the application appears in the dock
++if $darwin; then
++    GRADLE_OPTS="$GRADLE_OPTS \"-Xdock:name=$APP_NAME\" \"-Xdock:icon=$APP_HOME/media/gradle.icns\""
++fi
++
++# For Cygwin, switch paths to Windows format before running java
++if $cygwin ; then
++    APP_HOME=`cygpath --path --mixed "$APP_HOME"`
++    CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
++    JAVACMD=`cygpath --unix "$JAVACMD"`
++
++    # We build the pattern for arguments to be converted via cygpath
++    ROOTDIRSRAW=`find -L / -maxdepth 1 -mindepth 1 -type d 2>/dev/null`
++    SEP=""
++    for dir in $ROOTDIRSRAW ; do
++        ROOTDIRS="$ROOTDIRS$SEP$dir"
++        SEP="|"
++    done
++    OURCYGPATTERN="(^($ROOTDIRS))"
++    # Add a user-defined pattern to the cygpath arguments
++    if [ "$GRADLE_CYGPATTERN" != "" ] ; then
++        OURCYGPATTERN="$OURCYGPATTERN|($GRADLE_CYGPATTERN)"
++    fi
++    # Now convert the arguments - kludge to limit ourselves to /bin/sh
++    i=0
++    for arg in "$@" ; do
++        CHECK=`echo "$arg"|egrep -c "$OURCYGPATTERN" -`
++        CHECK2=`echo "$arg"|egrep -c "^-"`                                 ### Determine if an option
++
++        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                    ### Added a condition
++            eval `echo args$i`=`cygpath --path --ignore --mixed "$arg"`
++        else
++            eval `echo args$i`="\"$arg\""
++        fi
++        i=$((i+1))
++    done
++    case $i in
++        (0) set -- ;;
++        (1) set -- "$args0" ;;
++        (2) set -- "$args0" "$args1" ;;
++        (3) set -- "$args0" "$args1" "$args2" ;;
++        (4) set -- "$args0" "$args1" "$args2" "$args3" ;;
++        (5) set -- "$args0" "$args1" "$args2" "$args3" "$args4" ;;
++        (6) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" ;;
++        (7) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" "$args6" ;;
++        (8) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" "$args6" "$args7" ;;
++        (9) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" "$args6" "$args7" "$args8" ;;
++    esac
++fi
++
++# Split up the JVM_OPTS And GRADLE_OPTS values into an array, following the shell quoting and substitution rules
++function splitJvmOpts() {
++    JVM_OPTS=("$@")
++}
++eval splitJvmOpts $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS
++JVM_OPTS[${#JVM_OPTS[*]}]="-Dorg.gradle.appname=$APP_BASE_NAME"
++
++exec "$JAVACMD" "${JVM_OPTS[@]}" -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"
+Index: app/src/main/res/xml/preferences.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/xml/preferences.xml	(revision )
++++ app/src/main/res/xml/preferences.xml	(revision )
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    tools:context="com.liu.thomas.lightitup.Settings">
++    <PreferenceCategory
++        android:title="Bluetooth">
++        <PreferenceScreen
++            android:title="Bluetooth">
++            <intent android:action="com.liu.thomas.lightitup.activities.bluetooth"/>
++        </PreferenceScreen>
++
++    </PreferenceCategory>
++
++</PreferenceScreen>
+\ No newline at end of file
+Index: app/src/main/res/drawable/ic_navigate_before_white_24dp/ios/ic_navigate_before_white.imageset/Contents.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/ic_navigate_before_white_24dp/ios/ic_navigate_before_white.imageset/Contents.json	(revision )
++++ app/src/main/res/drawable/ic_navigate_before_white_24dp/ios/ic_navigate_before_white.imageset/Contents.json	(revision )
+@@ -0,0 +1,23 @@
++{
++    "images": [
++        {
++            "filename": "ic_navigate_before_white.png",
++            "idiom": "universal",
++            "scale": "1x"
++        },
++        {
++            "filename": "ic_navigate_before_white_2x.png",
++            "idiom": "universal",
++            "scale": "2x"
++        },
++        {
++            "filename": "ic_navigate_before_white_3x.png",
++            "idiom": "universal",
++            "scale": "3x"
++        }
++    ],
++    "info": {
++        "author": "xcode",
++        "version": 1
++    }
++}
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision )
++++ .idea/gradle.xml	(revision )
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="GradleSettings">
++    <option name="linkedExternalProjectsSettings">
++      <GradleProjectSettings>
++        <option name="distributionType" value="LOCAL" />
++        <option name="externalProjectPath" value="$PROJECT_DIR$" />
++        <option name="gradleHome" value="C:\Program Files\Android\Android Studio\gradle\gradle-2.8" />
++        <option name="gradleJvm" value="1.7" />
++        <option name="modules">
++          <set>
++            <option value="$PROJECT_DIR$" />
++            <option value="$PROJECT_DIR$/app" />
++          </set>
++        </option>
++      </GradleProjectSettings>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/res/drawable/ic_info_black_24dp.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/ic_info_black_24dp.xml	(revision )
++++ app/src/main/res/drawable/ic_info_black_24dp.xml	(revision )
+@@ -0,0 +1,9 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportHeight="24.0"
++    android:viewportWidth="24.0">
++    <path
++        android:fillColor="#FF000000"
++        android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zm1,15h-2v-6h2v6zm0,-8h-2V7h2v2z" />
++</vector>
+Index: app/src/main/res/drawable/round_button.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/round_button.xml	(revision )
++++ app/src/main/res/drawable/round_button.xml	(revision )
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="utf-8"?>
++<selector xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:state_pressed="false">
++        <shape android:shape="oval">
++            <solid android:color="@color/colorPrimaryDark"/>
++        </shape>
++    </item>
++    <item android:state_pressed="true">
++        <shape android:shape="oval">
++            <solid android:color="@color/colorPrimaryDark"/>
++        </shape>
++    </item>
++</selector>
+\ No newline at end of file
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>windows-1252
+===================================================================
+--- gradle/wrapper/gradle-wrapper.properties	(revision )
++++ gradle/wrapper/gradle-wrapper.properties	(revision )
+@@ -0,0 +1,6 @@
++#Wed Oct 21 11:34:03 PDT 2015
++distributionBase=GRADLE_USER_HOME
++distributionPath=wrapper/dists
++zipStoreBase=GRADLE_USER_HOME
++zipStorePath=wrapper/dists
++distributionUrl=https\://services.gradle.org/distributions/gradle-2.8-all.zip
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/vcs.xml	(revision )
++++ .idea/vcs.xml	(revision )
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/res/drawable/ic_done_white_24dp/ios/ic_done_white.imageset/Contents.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/ic_done_white_24dp/ios/ic_done_white.imageset/Contents.json	(revision )
++++ app/src/main/res/drawable/ic_done_white_24dp/ios/ic_done_white.imageset/Contents.json	(revision )
+@@ -0,0 +1,23 @@
++{
++    "images": [
++        {
++            "filename": "ic_done_white.png",
++            "idiom": "universal",
++            "scale": "1x"
++        },
++        {
++            "filename": "ic_done_white_2x.png",
++            "idiom": "universal",
++            "scale": "2x"
++        },
++        {
++            "filename": "ic_done_white_3x.png",
++            "idiom": "universal",
++            "scale": "3x"
++        }
++    ],
++    "info": {
++        "author": "xcode",
++        "version": 1
++    }
++}
+Index: app/src/main/res/values-v21/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values-v21/styles.xml	(revision )
++++ app/src/main/res/values-v21/styles.xml	(revision )
+@@ -0,0 +1,9 @@
++<resources>>
++
++    <style name="AppTheme.NoActionBar">
++        <item name="windowActionBar">false</item>
++        <item name="windowNoTitle">true</item>
++        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
++        <item name="android:statusBarColor">@android:color/transparent</item>
++    </style>
++</resources>
+Index: app/src/main/res/layout/tab4_layout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/tab4_layout.xml	(revision )
++++ app/src/main/res/layout/tab4_layout.xml	(revision )
+@@ -0,0 +1,36 @@
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:paddingBottom="@dimen/activity_vertical_margin"
++    android:paddingLeft="@dimen/activity_horizontal_margin"
++    android:paddingRight="@dimen/activity_horizontal_margin"
++    android:paddingTop="@dimen/activity_vertical_margin"
++    tools:context="com.liu.thomas.lightitup.Rooms$Tab4">
++
++    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
++        android:id="@+id/content"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent">
++
++
++    <TextView
++        android:id="@+id/section_label"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content" />
++    </ScrollView>
++    <android.support.v4.view.ViewPager
++        xmlns:android="http://schemas.android.com/apk/res/android"
++        android:id="@+id/pager"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent" />
++
++    <GridLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:layout_centerHorizontal="true"
++        android:layout_alignParentTop="true">
++
++
++    </GridLayout>
++</RelativeLayout>
+\ No newline at end of file
+Index: app/proguard-rules.pro
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/proguard-rules.pro	(revision )
++++ app/proguard-rules.pro	(revision )
+@@ -0,0 +1,17 @@
++# Add project specific ProGuard rules here.
++# By default, the flags in this file are appended to flags specified
++# in D:\Users\Thomas\AppData\Local\Android\sdk/tools/proguard/proguard-android.txt
++# You can edit the include path and order by changing the proguardFiles
++# directive in build.gradle.
++#
++# For more details, see
++#   http://developer.android.com/guide/developing/tools/proguard.html
++
++# Add any project specific keep options here:
++
++# If your project uses WebView with JS, uncomment the following
++# and specify the fully qualified class name to the JavaScript interface
++# class:
++#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
++#   public *;
++#}
+Index: app/src/main/res/menu/menu_rooms.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/menu_rooms.xml	(revision )
++++ app/src/main/res/menu/menu_rooms.xml	(revision )
+@@ -0,0 +1,11 @@
++<menu xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    tools:context="com.liu.thomas.lightitup.Rooms">
++    <item
++        android:id="@+id/action_settings"
++        android:orderInCategory="100"
++        android:icon="@drawable/settings"
++        android:title="@string/action_settings"
++        app:showAsAction="ifRoom" />
++</menu>
+Index: app/src/androidTest/java/com/liu/thomas/lightitup/ApplicationTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/androidTest/java/com/liu/thomas/lightitup/ApplicationTest.java	(revision )
++++ app/src/androidTest/java/com/liu/thomas/lightitup/ApplicationTest.java	(revision )
+@@ -0,0 +1,13 @@
++package com.liu.thomas.lightitup;
++
++import android.app.Application;
++import android.test.ApplicationTestCase;
++
++/**
++ * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
++ */
++public class ApplicationTest extends ApplicationTestCase<Application> {
++    public ApplicationTest() {
++        super(Application.class);
++    }
++}
+\ No newline at end of file
+Index: app/src/main/res/layout/viewpager_layout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/viewpager_layout.xml	(revision )
++++ app/src/main/res/layout/viewpager_layout.xml	(revision )
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:orientation="vertical"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++    <TextView
++        android:id="@+id/text"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:text="Test Test Test"
++        android:textSize="25dp"
++        android:textStyle="bold"
++        android:gravity="center"/>
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/values-v21/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values-v21/colors.xml	(revision )
++++ app/src/main/res/values-v21/colors.xml	(revision )
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <color name="colorPrimary">#cc1c1c</color>
++    <color name="colorPrimaryDark">#cc1c2c</color>
++    <color name="colorAccent">#ffffff</color>
++</resources>
+Index: app/src/main/java/com/liu/thomas/lightitup/Tab1.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/liu/thomas/lightitup/Tab1.java	(revision )
++++ app/src/main/java/com/liu/thomas/lightitup/Tab1.java	(revision )
+@@ -0,0 +1,40 @@
++    package com.liu.thomas.lightitup;
++
++    import android.os.Bundle;
++    import android.support.design.widget.TabLayout;
++    import android.support.v4.app.Fragment;
++    import android.view.LayoutInflater;
++    import android.view.View;
++    import android.view.ViewGroup;
++    import android.widget.LinearLayout;
++    import android.widget.TextView;
++
++    import java.awt.font.TextAttribute;
++
++    public class Tab1 extends Fragment{
++        public static final String ARG_PAGE = "ARG_PAGE";
++
++        private int mPage;
++
++        public static Tab1 NewInstance (int page) {
++            Bundle args = new Bundle();
++            args.putInt(ARG_PAGE, page);
++            Tab1 fragment = new Tab1();
++            fragment.setArguments(args);
++            return fragment;
++        }
++
++        @Override
++        public void onCreate(Bundle savedInstanceState){
++            super.onCreate(savedInstanceState);
++            mPage = getArguments().getInt(ARG_PAGE);
++        }
++
++        @Override
++        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
++            View view = inflater.inflate(R.layout.tab1_layout, container, false);
++            TextView textView = (TextView) view;
++            textView.setText("Fragment #" + mPage);
++            return view;
++        }
++    }
+Index: app/src/main/res/layout/bluetooth.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/bluetooth.xml	(revision )
++++ app/src/main/res/layout/bluetooth.xml	(revision )
+@@ -0,0 +1,56 @@
++<android.support.design.widget.CoordinatorLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/content"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:fitsSystemWindows="true"
++    tools:context="com.liu.thomas.lightitup.Rooms">
++
++    <RelativeLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent">
++        <Button
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Turn On"
++            android:id="@+id/button"
++            android:clickable="true"
++            android:onClick="on" />
++
++        <Button
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Get visible"
++            android:onClick="visible"
++            android:id="@+id/button2"
++            android:layout_alignParentTop="true"
++            android:layout_alignParentEnd="true" />
++
++        <Button
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="List devices"
++            android:onClick="list"
++            android:id="@+id/button3"
++            android:layout_alignParentTop="true"
++            android:layout_centerHorizontal="true" />
++
++        <Button
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="turn off"
++            android:onClick="off"
++            android:id="@+id/button4"
++            android:layout_below="@+id/button3"
++            android:layout_centerHorizontal="true" />
++
++        <ListView
++            android:layout_width="wrap_content"
++            android:layout_height="350dp"
++            android:id="@+id/listView"
++            android:layout_alignParentBottom="true"/>
++
++    </RelativeLayout>
++</android.support.design.widget.CoordinatorLayout>
+Index: app/src/main/res/menu/menu_settings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/menu_settings.xml	(revision )
++++ app/src/main/res/menu/menu_settings.xml	(revision )
+@@ -0,0 +1,11 @@
++<menu xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    tools:context="com.liu.thomas.lightitup.Rooms">
++    <item
++        android:id="@+id/action_back"
++        android:orderInCategory="100"
++        android:icon="@drawable/done"
++        android:title="@string/action_back"
++        app:showAsAction="always" />
++</menu>
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision )
++++ build.gradle	(revision )
+@@ -0,0 +1,23 @@
++// Top-level build file where you can add configuration options common to all sub-projects/modules.
++
++buildscript {
++    repositories {
++        jcenter()
++    }
++    dependencies {
++        classpath 'com.android.tools.build:gradle:1.5.0'
++
++        // NOTE: Do not place your application dependencies here; they belong
++        // in the individual module build.gradle files
++    }
++}
++
++allprojects {
++    repositories {
++        jcenter()
++    }
++}
++
++task clean(type: Delete) {
++    delete rootProject.buildDir
++}
+Index: app/src/main/res/drawable-v21/rount_button.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable-v21/rount_button.xml	(revision )
++++ app/src/main/res/drawable-v21/rount_button.xml	(revision )
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8"?>
++<ripple xmlns:android="http://schemas.android.com/apk/res/android"
++    android:color="#c20586">
++    <item>
++        <shape android:shape="oval">
++            <solid android:color="@color/colorAccent"/>
++        </shape>
++    </item>
++</ripple>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/compiler.xml	(revision )
++++ .idea/compiler.xml	(revision )
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <resourceExtensions />
++    <wildcardResourcePatterns>
++      <entry name="!?*.java" />
++      <entry name="!?*.form" />
++      <entry name="!?*.class" />
++      <entry name="!?*.groovy" />
++      <entry name="!?*.scala" />
++      <entry name="!?*.flex" />
++      <entry name="!?*.kt" />
++      <entry name="!?*.clj" />
++      <entry name="!?*.aj" />
++    </wildcardResourcePatterns>
++    <annotationProcessing>
++      <profile default="true" name="Default" enabled="false">
++        <processorPath useClasspath="true" />
++      </profile>
++    </annotationProcessing>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/encodings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/encodings.xml	(revision )
++++ .idea/encodings.xml	(revision )
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Encoding">
++    <file url="PROJECT" charset="UTF-8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/java/com/liu/thomas/lightitup/Add.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/liu/thomas/lightitup/Add.java	(revision )
++++ app/src/main/java/com/liu/thomas/lightitup/Add.java	(revision )
+@@ -0,0 +1,129 @@
++package com.liu.thomas.lightitup;
++
++import android.content.Intent;
++import android.os.Bundle;
++import android.support.v4.app.Fragment;
++import android.support.v4.app.FragmentManager;
++import android.support.v4.app.FragmentPagerAdapter;
++import android.support.v4.app.NavUtils;
++import android.support.v4.view.ViewPager;
++import android.support.v7.app.AppCompatActivity;
++import android.view.LayoutInflater;
++import android.view.Menu;
++import android.view.MenuItem;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.TextView;
++
++public class Add extends AppCompatActivity {
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.add);
++        setTitle("Add a new room");
++    }
++    /**
++     * The {@link android.support.v4.view.PagerAdapter} that will provide
++     * fragments for each of the sections. We use a
++     * {@link FragmentPagerAdapter} derivative, which will keep every
++     * loaded fragment in memory. If this becomes too memory intensive, it
++     * may be best to switch to a
++     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
++     */
++    private SectionsPagerAdapter mSectionsPagerAdapter;
++
++    /**
++     * The {@link ViewPager} that will host the section contents.
++     */
++    private ViewPager mViewPager;
++
++
++    @Override
++    public boolean onCreateOptionsMenu(Menu menu) {
++        // Inflate the menu; this adds items to the action bar if it is present.
++        getMenuInflater().inflate(R.menu.menu_add, menu);
++        return true;
++    }
++
++    @Override
++    public boolean onOptionsItemSelected(MenuItem item) {
++        switch (item.getItemId()) {
++            case R.id.action_back:
++                NavUtils.navigateUpFromSameTask(Add.this);
++                return true;
++            default:
++                return super.onOptionsItemSelected(item);
++        }
++    }
++
++    /**
++     * A placeholder fragment containing a simple view.
++     */
++    public static class PlaceholderFragment extends Fragment {
++        /**
++         * The fragment argument representing the section number for this
++         * fragment.
++         */
++        private static final String ARG_SECTION_NUMBER = "section_number";
++
++        public PlaceholderFragment() {
++        }
++
++        /**
++         * Returns a new instance of this fragment for the given section
++         * number.
++         */
++        public static PlaceholderFragment newInstance(int sectionNumber) {
++            PlaceholderFragment fragment = new PlaceholderFragment();
++            Bundle args = new Bundle();
++            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
++            fragment.setArguments(args);
++            return fragment;
++        }
++
++    }
++
++    public String Kamer;
++    /**
++     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
++     * one of the sections/tabs/pages.
++     */
++    public class SectionsPagerAdapter extends FragmentPagerAdapter {
++
++        public SectionsPagerAdapter(FragmentManager fm) {
++            super(fm);
++        }
++
++        @Override
++        public Fragment getItem(int position) {
++            // getItem is called to instantiate the fragment for the given page.
++            // Return a PlaceholderFragment (defined as a static inner class below).
++            return PlaceholderFragment.newInstance(position + 1);
++        }
++
++        @Override
++        public int getCount() {
++            // Show 3 total pages.
++            return 4;
++        }
++
++        @Override
++        public CharSequence getPageTitle(int position) {
++            switch (position) {
++                case 0:
++                    Kamer="Living";
++                    return Kamer;
++                case 1:
++                    Kamer="Keuken";
++                    return Kamer;
++                case 2:
++                    Kamer="Gang";
++                    return Kamer;
++                case 3:
++                    Kamer="Toilet";
++                    return Kamer;
++            }
++            return null;
++        }
++    }
++}
+Index: app/src/main/java/com/liu/thomas/lightitup/Tab4.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/liu/thomas/lightitup/Tab4.java	(revision )
++++ app/src/main/java/com/liu/thomas/lightitup/Tab4.java	(revision )
+@@ -0,0 +1,19 @@
++package com.liu.thomas.lightitup;
++
++import android.os.Bundle;
++import android.support.v4.app.Fragment;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.LinearLayout;
++
++public class Tab4 extends android.app.Fragment{
++    @Override
++    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
++        // TO DO auto-generated method stub
++        if (container ==null){
++            return null;
++        }
++        return (LinearLayout)inflater.inflate(R.layout.tab4_layout, container, false);
++    }
++}
+Index: gradle.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>windows-1252
+===================================================================
+--- gradle.properties	(revision )
++++ gradle.properties	(revision )
+@@ -0,0 +1,18 @@
++# Project-wide Gradle settings.
++
++# IDE (e.g. Android Studio) users:
++# Gradle settings configured through the IDE *will override*
++# any settings specified in this file.
++
++# For more details on how to configure your build environment visit
++# http://www.gradle.org/docs/current/userguide/build_environment.html
++
++# Specifies the JVM arguments used for the daemon process.
++# The setting is particularly useful for tweaking memory settings.
++# Default value: -Xmx10248m -XX:MaxPermSize=256m
++# org.gradle.jvmargs=-Xmx2048m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
++
++# When configured, Gradle will run in incubating parallel mode.
++# This option should only be used with decoupled projects. More details, visit
++# http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:decoupled_projects
++# org.gradle.parallel=true
+\ No newline at end of file
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/colors.xml	(revision )
++++ app/src/main/res/values/colors.xml	(revision )
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <color name="colorPrimary">#3F51B5</color>
++    <color name="colorPrimaryDark">#303F9F</color>
++    <color name="colorAccent">#8A0707</color>
++    <color name="Gray">#c5c5c5</color>
++</resources>
+Index: settings.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- settings.gradle	(revision )
++++ settings.gradle	(revision )
+@@ -0,0 +1,1 @@
++include ':app'
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(revision )
++++ app/src/main/res/values/styles.xml	(revision )
+@@ -0,0 +1,20 @@
++<resources>
++
++    <!-- Base application theme. -->
++    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
++        <!-- Customize your theme here. -->
++        <item name="colorPrimary">@color/colorPrimary</item>
++        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
++        <item name="colorAccent">@color/colorAccent</item>
++    </style>
++
++    <style name="AppTheme.NoActionBar">
++        <item name="windowActionBar">false</item>
++        <item name="windowNoTitle">true</item>
++    </style>
++
++    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
++
++    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
++
++</resources>
+Index: app/src/main/res/drawable/ic_sync_black_24dp.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/ic_sync_black_24dp.xml	(revision )
++++ app/src/main/res/drawable/ic_sync_black_24dp.xml	(revision )
+@@ -0,0 +1,9 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24.0dp"
++    android:height="24.0dp"
++    android:viewportHeight="24.0"
++    android:viewportWidth="24.0">
++    <path
++        android:fillColor="#FF000000"
++        android:pathData="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01,-.25 1.97,-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0,-4.42,-3.58,-8,-8,-8zm0 14c-3.31 0,-6,-2.69,-6,-6 0,-1.01.25,-1.97.7,-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4,-4,-4,-4v3z" />
++</vector>
+\ No newline at end of file
+Index: app/src/main/java/com/liu/thomas/lightitup/Bluetooth.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/liu/thomas/lightitup/Bluetooth.java	(revision )
++++ app/src/main/java/com/liu/thomas/lightitup/Bluetooth.java	(revision )
+@@ -0,0 +1,113 @@
++package com.liu.thomas.lightitup;
++
++import android.app.Activity;
++import android.bluetooth.BluetoothAdapter;
++import android.bluetooth.BluetoothDevice;
++
++import android.content.BroadcastReceiver;
++import android.content.Context;
++import android.content.Intent;
++import android.content.IntentFilter;
++
++import android.graphics.Color;
++import android.net.wifi.ScanResult;
++import android.net.wifi.WifiManager;
++
++import android.os.Bundle;
++import android.support.v4.app.NavUtils;
++import android.view.Menu;
++import android.view.MenuItem;
++import android.view.View;
++
++import android.widget.ArrayAdapter;
++import android.widget.Button;
++import android.widget.EditText;
++import android.widget.ListView;
++import android.widget.TextView;
++import android.widget.Toast;
++
++import java.util.ArrayList;
++import java.util.List;
++import java.util.Set;
++
++public class Bluetooth extends Activity  {
++
++
++    Button b1,b2,b3,b4;
++    private BluetoothAdapter BA;
++    private Set<BluetoothDevice>pairedDevices;
++    ListView lv;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.bluetooth);
++        setTitle("Bluetooth Settings");
++
++        b1 = (Button) findViewById(R.id.button);
++        b2=(Button)findViewById(R.id.button2);
++        b3=(Button)findViewById(R.id.button3);
++        b4=(Button)findViewById(R.id.button4);
++
++        BA = BluetoothAdapter.getDefaultAdapter();
++        lv = (ListView)findViewById(R.id.listView);
++    }
++
++    public void on(View v){
++        if (!BA.isEnabled()) {
++            Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
++            startActivityForResult(turnOn, 0);
++            Toast.makeText(getApplicationContext(),"Turned on",Toast.LENGTH_LONG).show();
++        }
++        else
++        {
++            Toast.makeText(getApplicationContext(),"Already on", Toast.LENGTH_LONG).show();
++        }
++    }
++
++    public void off(View v){
++        BA.disable();
++        Toast.makeText(getApplicationContext(),"Turned off" ,Toast.LENGTH_LONG).show();
++    }
++
++    public  void visible(View v){
++        Intent getVisible = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
++        startActivityForResult(getVisible, 0);
++    }
++
++    public void list(View v){
++        pairedDevices = BA.getBondedDevices();
++        ArrayList list = new ArrayList();
++
++        for(BluetoothDevice bt : pairedDevices)
++            list.add(bt.getName());
++        Toast.makeText(getApplicationContext(),"Showing Paired Devices",Toast.LENGTH_SHORT).show();
++
++        final ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
++        lv.setAdapter(adapter);
++    }
++
++    @Override
++    public boolean onCreateOptionsMenu(Menu menu) {
++        // Inflate the menu; this adds items to the action bar if it is present.
++        getMenuInflater().inflate(R.menu.menu_bluetooth, menu);
++        return true;
++    }
++
++
++    @Override
++    public boolean onOptionsItemSelected(MenuItem item) {
++        // Handle action bar item clicks here. The action bar will
++        // automatically handle clicks on the Home/Up button, so long
++        // as you specify a parent activity in AndroidManifest.xml.
++        int id = item.getItemId();
++
++        //noinspection SimplifiableIfStatement
++        if (id == R.id.action_back) {
++            NavUtils.navigateUpFromSameTask(Bluetooth.this);
++            return true;
++        }
++
++        return super.onOptionsItemSelected(item);
++    }
++}
+Index: .idea/.name
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/.name	(revision )
++++ .idea/.name	(revision )
+@@ -0,0 +1,1 @@
++LightItUp
+\ No newline at end of file
+Index: gradlew.bat
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gradlew.bat	(revision )
++++ gradlew.bat	(revision )
+@@ -0,0 +1,90 @@
++@if "%DEBUG%" == "" @echo off
++@rem ##########################################################################
++@rem
++@rem  Gradle startup script for Windows
++@rem
++@rem ##########################################################################
++
++@rem Set local scope for the variables with windows NT shell
++if "%OS%"=="Windows_NT" setlocal
++
++@rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
++set DEFAULT_JVM_OPTS=
++
++set DIRNAME=%~dp0
++if "%DIRNAME%" == "" set DIRNAME=.
++set APP_BASE_NAME=%~n0
++set APP_HOME=%DIRNAME%
++
++@rem Find java.exe
++if defined JAVA_HOME goto findJavaFromJavaHome
++
++set JAVA_EXE=java.exe
++%JAVA_EXE% -version >NUL 2>&1
++if "%ERRORLEVEL%" == "0" goto init
++
++echo.
++echo ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
++echo.
++echo Please set the JAVA_HOME variable in your environment to match the
++echo location of your Java installation.
++
++goto fail
++
++:findJavaFromJavaHome
++set JAVA_HOME=%JAVA_HOME:"=%
++set JAVA_EXE=%JAVA_HOME%/bin/java.exe
++
++if exist "%JAVA_EXE%" goto init
++
++echo.
++echo ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME%
++echo.
++echo Please set the JAVA_HOME variable in your environment to match the
++echo location of your Java installation.
++
++goto fail
++
++:init
++@rem Get command-line arguments, handling Windowz variants
++
++if not "%OS%" == "Windows_NT" goto win9xME_args
++if "%@eval[2+2]" == "4" goto 4NT_args
++
++:win9xME_args
++@rem Slurp the command line arguments.
++set CMD_LINE_ARGS=
++set _SKIP=2
++
++:win9xME_args_slurp
++if "x%~1" == "x" goto execute
++
++set CMD_LINE_ARGS=%*
++goto execute
++
++:4NT_args
++@rem Get arguments from the 4NT Shell from JP Software
++set CMD_LINE_ARGS=%$
++
++:execute
++@rem Setup the command line
++
++set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
++
++@rem Execute Gradle
++"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% "-Dorg.gradle.appname=%APP_BASE_NAME%" -classpath "%CLASSPATH%" org.gradle.wrapper.GradleWrapperMain %CMD_LINE_ARGS%
++
++:end
++@rem End local scope for the variables with windows NT shell
++if "%ERRORLEVEL%"=="0" goto mainEnd
++
++:fail
++rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of
++rem the _cmd.exe /c_ return code!
++if  not "" == "%GRADLE_EXIT_CONSOLE%" exit 1
++exit /b 1
++
++:mainEnd
++if "%OS%"=="Windows_NT" endlocal
++
++:omega
+Index: app/src/main/res/layout/tab3_layout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/tab3_layout.xml	(revision )
++++ app/src/main/res/layout/tab3_layout.xml	(revision )
+@@ -0,0 +1,28 @@
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:paddingBottom="@dimen/activity_vertical_margin"
++    android:paddingLeft="@dimen/activity_horizontal_margin"
++    android:paddingRight="@dimen/activity_horizontal_margin"
++    android:paddingTop="@dimen/activity_vertical_margin"
++    tools:context="com.liu.thomas.lightitup.Rooms$Tab3">
++
++    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
++        android:id="@+id/content"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent" >
++
++        <TextView
++            android:id="@+id/section_label"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++    </ScrollView>
++
++    <android.support.v4.view.ViewPager
++        xmlns:android="http://schemas.android.com/apk/res/android"
++        android:id="@+id/pager"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent" />
++
++</RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/res/menu/menu_add.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/menu_add.xml	(revision )
++++ app/src/main/res/menu/menu_add.xml	(revision )
+@@ -0,0 +1,12 @@
++<menu xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    tools:context="com.liu.thomas.lightitup.Rooms">
++    <item
++        android:id="@+id/action_back"
++        android:orderInCategory="100"
++        android:icon="@drawable/done"
++        android:title="@string/action_settings"
++        app:showAsAction="always" />
++
++</menu>
+Index: app/src/main/res/layout/activity_rooms.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_rooms.xml	(revision )
++++ app/src/main/res/layout/activity_rooms.xml	(revision )
+@@ -0,0 +1,54 @@
++<?xml version="1.0" encoding="utf-8"?>
++<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/main_content"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:fitsSystemWindows="true"
++    tools:context="com.liu.thomas.lightitup.Rooms">
++
++    <android.support.design.widget.AppBarLayout
++        android:id="@+id/appbar"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:paddingTop="@dimen/appbar_padding_top"
++        android:theme="@style/AppTheme.AppBarOverlay">
++
++        <android.support.v7.widget.Toolbar
++            android:id="@+id/toolbar"
++            android:layout_width="match_parent"
++            android:layout_height="?attr/actionBarSize"
++            android:background="?attr/colorPrimary"
++            app:layout_scrollFlags="scroll|enterAlways"
++            app:popupTheme="@style/AppTheme.PopupOverlay">
++        </android.support.v7.widget.Toolbar>
++
++        <android.support.design.widget.TabLayout
++            android:id="@+id/tabs"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content" />
++
++    </android.support.design.widget.AppBarLayout>
++
++    <android.support.v4.view.ViewPager
++        android:id="@+id/container"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:background="@color/Gray"
++        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
++
++    <android.support.design.widget.FloatingActionButton
++        android:id="@+id/fab"
++        android:background="@color/colorPrimary"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_gravity="end|bottom"
++        android:onClick="sendMessage"
++        android:backgroundTint="@color/colorPrimary"
++        app:borderWidth="0dp"
++        app:fabSize="normal"
++        android:layout_margin="@dimen/fab_margin"
++        android:src="@drawable/add" />
++
++</android.support.design.widget.CoordinatorLayout>
+Index: app/src/main/res/drawable/ic_notifications_black_24dp.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/ic_notifications_black_24dp.xml	(revision )
++++ app/src/main/res/drawable/ic_notifications_black_24dp.xml	(revision )
+@@ -0,0 +1,9 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportHeight="24.0"
++    android:viewportWidth="24.0">
++    <path
++        android:fillColor="#FF000000"
++        android:pathData="M11.5,22c1.1,0 2,-0.9 2,-2h-4c0,1.1 0.9,2 2,2zm6.5,-6v-5.5c0,-3.07 -2.13,-5.64 -5,-6.32V3.5c0,-0.83 -0.67,-1.5 -1.5,-1.5S10,2.67 10,3.5v0.68c-2.87,0.68 -5,3.25 -5,6.32V16l-2,2v1h17v-1l-2,-2z" />
++</vector>
+Index: app/src/main/res/layout/settings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/settings.xml	(revision )
++++ app/src/main/res/layout/settings.xml	(revision )
+@@ -0,0 +1,13 @@
++<android.support.design.widget.CoordinatorLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/content"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:fitsSystemWindows="true"
++    tools:context="com.liu.thomas.lightitup.Rooms">
++
++
++
++</android.support.design.widget.CoordinatorLayout>
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision )
++++ app/src/main/AndroidManifest.xml	(revision )
+@@ -0,0 +1,56 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.liu.thomas.lightitup">
++    <uses-permission android:name="android.permission.BLUETOOTH"/>
++    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
++
++    <application
++        android:allowBackup="true"
++        android:icon="@mipmap/ic_launcher"
++        android:label="@string/app_name"
++        android:supportsRtl="true"
++        android:theme="@style/AppTheme">
++        <activity
++            android:name=".Rooms"
++            android:label="@string/title_activity_main"
++            android:theme="@style/AppTheme.NoActionBar">
++            <meta-data
++                android:name="android.support.PARENT_ACTIVITY"
++                android:value="com.liu.thomas.lightitup.Rooms" />
++            <intent-filter>
++                <action android:name="android.intent.action.MAIN" />
++
++                <category android:name="android.intent.category.LAUNCHER" />
++            </intent-filter>
++        </activity>
++        <activity
++        android:name=".Settings"
++        android:label="@string/app_name">
++            <meta-data
++                android:name="android.support.PARENT_ACTIVITY"
++                android:value="com.liu.thomas.lightitup.Rooms" />
++        </activity>
++        <activity android:name=".Bluetooth"
++            android:theme="@style/AppTheme.NoActionBar">
++            <meta-data
++                android:name="android.support.PARENT_ACTIVITY"
++                android:value="com.liu.thomas.lightitup.Rooms" />
++            <intent-filter>
++                <action android:name="com.liu.thomas.lightitup.activities.bluetooth" />
++                <category android:name="android.intent.category.DEFAULT" />
++            </intent-filter>
++        </activity>
++        <activity
++            android:name=".Tab1"
++            android:label="@string/app_name">
++        </activity>
++        <activity
++            android:name=".Add"
++            android:label="@string/app_name">
++            <meta-data
++                android:name="android.support.PARENT_ACTIVITY"
++                android:value="com.liu.thomas.lightitup.Rooms" />
++        </activity>
++    </application>
++
++</manifest>
+Index: app/src/main/res/values-w820dp/dimens.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values-w820dp/dimens.xml	(revision )
++++ app/src/main/res/values-w820dp/dimens.xml	(revision )
+@@ -0,0 +1,6 @@
++<resources>
++    <!-- Example customization of dimensions originally defined in res/values/dimens.xml
++         (such as screen margins) for screens with more than 820dp of available width. This
++         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
++    <dimen name="activity_horizontal_margin">64dp</dimen>
++</resources>
+Index: app/src/test/java/com/liu/thomas/lightitup/ExampleUnitTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/test/java/com/liu/thomas/lightitup/ExampleUnitTest.java	(revision )
++++ app/src/test/java/com/liu/thomas/lightitup/ExampleUnitTest.java	(revision )
+@@ -0,0 +1,15 @@
++package com.liu.thomas.lightitup;
++
++import org.junit.Test;
++
++import static org.junit.Assert.*;
++
++/**
++ * To work on unit tests, switch the Test Artifact in the Build Variants view.
++ */
++public class ExampleUnitTest {
++    @Test
++    public void addition_isCorrect() throws Exception {
++        assertEquals(4, 2 + 2);
++    }
++}
+\ No newline at end of file
+Index: app/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/.gitignore	(revision )
++++ app/.gitignore	(revision )
+@@ -0,0 +1,1 @@
++/build
+Index: app/src/main/java/com/liu/thomas/lightitup/Tab3.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/liu/thomas/lightitup/Tab3.java	(revision )
++++ app/src/main/java/com/liu/thomas/lightitup/Tab3.java	(revision )
+@@ -0,0 +1,19 @@
++package com.liu.thomas.lightitup;
++
++import android.os.Bundle;
++import android.support.v4.app.Fragment;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.LinearLayout;
++
++public class Tab3 extends android.app.Fragment{
++    @Override
++    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
++        // TO DO auto-generated method stub
++        if (container ==null){
++            return null;
++        }
++        return (LinearLayout)inflater.inflate(R.layout.tab3_layout, container, false);
++    }
++}
+Index: app/src/main/res/layout/tab1_layout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/tab1_layout.xml	(revision )
++++ app/src/main/res/layout/tab1_layout.xml	(revision )
+@@ -0,0 +1,27 @@
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++xmlns:tools="http://schemas.android.com/tools"
++android:layout_width="match_parent"
++android:layout_height="match_parent"
++android:paddingBottom="@dimen/activity_vertical_margin"
++android:paddingLeft="@dimen/activity_horizontal_margin"
++android:paddingRight="@dimen/activity_horizontal_margin"
++android:paddingTop="@dimen/activity_vertical_margin"
++tools:context="com.liu.thomas.lightitup.Rooms$Tab1">
++
++<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
++    android:id="@+id/content"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent" >
++</ScrollView>
++<TextView
++    android:id="@+id/section_label"
++    android:layout_width="wrap_content"
++    android:layout_height="wrap_content" />
++
++<android.support.v4.view.ViewPager
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    android:id="@+id/pager"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent" />
++
++</RelativeLayout>
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(revision )
++++ .idea/modules.xml	(revision )
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/LightItUp.iml" filepath="$PROJECT_DIR$/LightItUp.iml" />
++      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/res/menu/menu_bluetooth.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/menu_bluetooth.xml	(revision )
++++ app/src/main/res/menu/menu_bluetooth.xml	(revision )
+@@ -0,0 +1,11 @@
++<menu xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    tools:context="com.liu.thomas.lightitup.Rooms">
++    <item
++        android:id="@+id/action_back"
++        android:orderInCategory="100"
++        android:icon="@drawable/done"
++        android:title="@string/action_back"
++        app:showAsAction="always" />
++</menu>
+Index: .idea/runConfigurations.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/runConfigurations.xml	(revision )
++++ .idea/runConfigurations.xml	(revision )
+@@ -0,0 +1,12 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RunConfigurationProducerService">
++    <option name="ignoredProducers">
++      <set>
++        <option value="org.jetbrains.plugins.gradle.execution.test.runner.AllInPackageGradleConfigurationProducer" />
++        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestClassGradleConfigurationProducer" />
++        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestMethodGradleConfigurationProducer" />
++      </set>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/java/com/liu/thomas/lightitup/Settings.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/liu/thomas/lightitup/Settings.java	(revision )
++++ app/src/main/java/com/liu/thomas/lightitup/Settings.java	(revision )
+@@ -0,0 +1,79 @@
++package com.liu.thomas.lightitup;
++
++import android.content.Intent;
++import android.os.Bundle;
++import android.preference.PreferenceFragment;
++import android.support.design.widget.FloatingActionButton;
++import android.support.design.widget.TabLayout;
++import android.support.v4.app.Fragment;
++import android.support.v4.app.FragmentManager;
++import android.support.v4.app.FragmentPagerAdapter;
++import android.support.v4.app.NavUtils;
++import android.support.v4.view.ViewPager;
++import android.support.v7.app.AppCompatActivity;
++import android.support.v7.widget.Toolbar;
++import android.view.LayoutInflater;
++import android.view.Menu;
++import android.view.MenuItem;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.TextView;
++
++public class Settings extends AppCompatActivity {
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.settings);
++        setTitle("Light It Up Settings");
++
++        getFragmentManager().beginTransaction().replace(R.id.content, new MainSettingsFragment()).commit();
++
++    }
++
++    public static class MainSettingsFragment extends PreferenceFragment{
++        @Override
++        public void onCreate(Bundle savedInstanceState){
++            super.onCreate(savedInstanceState);
++            addPreferencesFromResource(R.xml.preferences);
++        }
++    }
++
++    /**
++     * The {@link android.support.v4.view.PagerAdapter} that will provide
++     * fragments for each of the sections. We use a
++     * {@link FragmentPagerAdapter} derivative, which will keep every
++     * loaded fragment in memory. If this becomes too memory intensive, it
++     * may be best to switch to a
++     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
++     */
++
++    /**
++     * The {@link ViewPager} that will host the section contents.
++     */
++
++
++    @Override
++    public boolean onCreateOptionsMenu(Menu menu) {
++        // Inflate the menu; this adds items to the action bar if it is present.
++        getMenuInflater().inflate(R.menu.menu_settings, menu);
++        return true;
++    }
++
++    @Override
++    public boolean onOptionsItemSelected(MenuItem item) {
++        // Handle action bar item clicks here. The action bar will
++        // automatically handle clicks on the Home/Up button, so long
++        // as you specify a parent activity in AndroidManifest.xml.
++        int id = item.getItemId();
++
++        //noinspection SimplifiableIfStatement
++        if (id == R.id.action_back) {
++            NavUtils.navigateUpFromSameTask(Settings.this);
++            return true;
++        }
++
++        return super.onOptionsItemSelected(item);
++    }
++}
++
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .gitignore	(revision )
++++ .gitignore	(revision )
+@@ -0,0 +1,8 @@
++*.iml
++.gradle
++/local.properties
++/.idea/workspace.xml
++/.idea/libraries
++.DS_Store
++/build
++/captures
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision )
++++ .idea/misc.xml	(revision )
+@@ -0,0 +1,46 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="EntryPointsManager">
++    <entry_points version="2.0" />
++  </component>
++  <component name="NullableNotNullManager">
++    <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
++    <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
++    <option name="myNullables">
++      <value>
++        <list size="4">
++          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
++          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
++          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
++          <item index="3" class="java.lang.String" itemvalue="android.support.annotation.Nullable" />
++        </list>
++      </value>
++    </option>
++    <option name="myNotNulls">
++      <value>
++        <list size="4">
++          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
++          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
++          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
++          <item index="3" class="java.lang.String" itemvalue="android.support.annotation.NonNull" />
++        </list>
++      </value>
++    </option>
++  </component>
++  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
++    <OptionsSetting value="true" id="Add" />
++    <OptionsSetting value="true" id="Remove" />
++    <OptionsSetting value="true" id="Checkout" />
++    <OptionsSetting value="true" id="Update" />
++    <OptionsSetting value="true" id="Status" />
++    <OptionsSetting value="true" id="Edit" />
++    <ConfirmationsSetting value="0" id="Add" />
++    <ConfirmationsSetting value="0" id="Remove" />
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/build/classes" />
++  </component>
++  <component name="ProjectType">
++    <option name="id" value="Android" />
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/res/layout/tab2_layout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/tab2_layout.xml	(revision )
++++ app/src/main/res/layout/tab2_layout.xml	(revision )
+@@ -0,0 +1,28 @@
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:paddingBottom="@dimen/activity_vertical_margin"
++    android:paddingLeft="@dimen/activity_horizontal_margin"
++    android:paddingRight="@dimen/activity_horizontal_margin"
++    android:paddingTop="@dimen/activity_vertical_margin"
++    tools:context="com.liu.thomas.lightitup.Rooms$Tab2">
++
++    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
++        android:id="@+id/content"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent" >
++
++        <TextView
++            android:id="@+id/section_label"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content" />
++    </ScrollView>
++
++    <android.support.v4.view.ViewPager
++        xmlns:android="http://schemas.android.com/apk/res/android"
++        android:id="@+id/pager"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent" />
++
++</RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/liu/thomas/lightitup/Tab2.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/liu/thomas/lightitup/Tab2.java	(revision )
++++ app/src/main/java/com/liu/thomas/lightitup/Tab2.java	(revision )
+@@ -0,0 +1,19 @@
++package com.liu.thomas.lightitup;
++
++import android.os.Bundle;
++import android.support.v4.app.Fragment;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.LinearLayout;
++
++public class Tab2 extends android.app.Fragment{
++    @Override
++    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
++        // TO DO auto-generated method stub
++        if (container ==null){
++            return null;
++        }
++        return (LinearLayout)inflater.inflate(R.layout.tab2_layout, container, false);
++    }
++}
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision )
++++ app/build.gradle	(revision )
+@@ -0,0 +1,27 @@
++apply plugin: 'com.android.application'
++
++android {
++    compileSdkVersion 23
++    buildToolsVersion "23.0.2"
++
++    defaultConfig {
++        applicationId "com.liu.thomas.lightitup"
++        minSdkVersion 22
++        targetSdkVersion 23
++        versionCode 1
++        versionName "1.0"
++    }
++    buildTypes {
++        release {
++            minifyEnabled false
++            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
++        }
++    }
++}
++
++dependencies {
++    compile fileTree(dir: 'libs', include: ['*.jar'])
++    testCompile 'junit:junit:4.12'
++    compile 'com.android.support:appcompat-v7:23.1.1'
++    compile 'com.android.support:design:23.1.1'
++}
+Index: app/src/main/res/values/dimens.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/dimens.xml	(revision )
++++ app/src/main/res/values/dimens.xml	(revision )
+@@ -0,0 +1,7 @@
++<resources>
++    <!-- Default screen margins, per the Android Design guidelines. -->
++    <dimen name="activity_horizontal_margin">16dp</dimen>
++    <dimen name="activity_vertical_margin">16dp</dimen>
++    <dimen name="fab_margin">16dp</dimen>
++    <dimen name="appbar_padding_top">8dp</dimen>
++</resources>
